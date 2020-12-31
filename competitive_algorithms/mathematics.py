@@ -1,6 +1,6 @@
 """数学系のアルゴリズム"""
 import math
-from typing import Tuple, List, Dict
+from typing import Tuple, List, Dict, Set
 from collections import defaultdict
 
 
@@ -34,7 +34,6 @@ def is_prime(n: int) -> bool:
 
 
 def list_prime_factor(n: int) -> Dict[int, int]:
-    # TODO: verify
     """
     素因数を列挙するアルゴリズムO(√n)
     nの素因数は高々√nであることを利用(自身が素数でない場合)
@@ -55,3 +54,25 @@ def list_prime_factor(n: int) -> Dict[int, int]:
         if n != 1:
             factors[n] += 1
         return factors
+
+
+def list_divisors(n: int) -> Set[int]:
+    # TODO: verify
+    """
+    nの約数のリストを返す
+    """
+    i = 1
+    divisors = set()
+
+    if is_prime(n):
+        divisors.add(1)
+        divisors.add(n)
+        return divisors
+
+    while(i * i <= n):
+        if n % i == 0:
+            divisors.add(i)
+            if n // i != i:
+                divisors.add(n // i)
+        i += 1
+    return divisors

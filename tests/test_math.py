@@ -1,6 +1,6 @@
 import pytest
 
-from competitive_algorithms.mathematics import extgcd, is_prime, list_prime_factor
+from competitive_algorithms.mathematics import extgcd, is_prime, list_prime_factor, list_divisors
 
 
 @pytest.mark.parametrize("a,b", {
@@ -35,4 +35,14 @@ def test_list_prime_factor(n, result):
         assert list_prime_factor(n) == result
 
 
-n = int(input())
+@pytest.mark.parametrize("n, expected", [
+    pytest.param(10, set([1, 2, 5, 10]), id='simple'),
+    pytest.param(25, set([1, 5, 25]), id='simple2'),
+    pytest.param(7, set([1, 7]), id='prime'),
+    pytest.param(1, set([1]), id='corner'),
+    pytest.param(2, set([1, 2]), id='corner')
+])
+def test_list_divisors(n, expected):
+    assert list_divisors(n) == expected
+
+# n = int(input())
