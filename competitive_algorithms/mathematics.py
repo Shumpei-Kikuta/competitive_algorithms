@@ -88,3 +88,24 @@ def list_divisors(n: int) -> Set[int]:
                 divisors.add(n // i)
         i += 1
     return divisors
+
+
+def eratosthenes(n: int) -> Set[int]:
+    """
+    エラトステネスの篩
+    nより小さい素数を列挙する
+    計算量: O(n loglogn) ほぼO(n)と考えて良い
+    """
+    primes = set()
+    is_primes_dicts = {i: True for i in range(2, n)}
+    if n == 1:
+        return primes
+    for i in range(2, n):
+        if is_primes_dicts[i]:
+            if is_prime(i):
+                primes.add(i)
+                idx = 2
+                while(i * idx <= n):
+                    is_primes_dicts[i * idx] = False
+                    idx += 1
+    return primes

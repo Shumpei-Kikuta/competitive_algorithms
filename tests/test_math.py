@@ -1,6 +1,6 @@
 import pytest
 
-from competitive_algorithms.mathematics import extgcd, is_prime, list_prime_factor, list_divisors, lcm
+from competitive_algorithms.mathematics import extgcd, is_prime, list_prime_factor, list_divisors, lcm, eratosthenes
 
 
 @pytest.mark.parametrize("a,b", {
@@ -54,3 +54,14 @@ def test_list_divisors(n, expected):
 ])
 def test_lcm(A, B, expected):
     assert lcm(A, B) == expected
+
+
+@pytest.mark.parametrize('n, expected', [
+    pytest.param(11, 4),
+    pytest.param(100, 25),
+    pytest.param(10000, 1229),
+    pytest.param(2, 0),
+    pytest.param(1, 0),
+])
+def test_eratosthenes(n, expected):
+    assert len(eratosthenes(n)) == expected
