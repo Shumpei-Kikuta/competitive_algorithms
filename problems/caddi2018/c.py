@@ -1,16 +1,20 @@
 import sys
+
 sys.setrecursionlimit(10000000)
 from heapq import heapify, heappop, heappush
 import copy
 from math import gcd, ceil
 from collections import deque, defaultdict
 from typing import Tuple, List, Dict, Set
+
 # queueとして使う場合 append(右に挿入), popleft(左を取り出す)を使う
 # stackとして使う場合、append, pop(右を取り出す)
 from itertools import accumulate  # 累積和の計算
+
 # A=[1,4,3,4,6,5]
 # print(list(accumulate(A))) #[1, 5, 8, 12, 18, 23]
 from bisect import bisect_left, bisect_right
+
 # bisect_left: 配列の順序関係が崩れない条件で挿入することができる一番左の点
 # bisect_right: 配列の順序関係が崩れない条件で挿入することができる一番右の点
 # A = [1, 1, 1, 2, 2, 2, 4]
@@ -18,7 +22,8 @@ from bisect import bisect_left, bisect_right
 # print(bisect_right(A, 2))  # 6
 # print(bisect_left(A, 3))  # 6
 # print(bisect_right(A, 3))  # 6
-from itertools import permutations,combinations  # 順列、組み合わせ
+from itertools import permutations, combinations  # 順列、組み合わせ
+
 # for i in combinations(A,2):
 #     print(i, end=' ')
 # (1, 2) (1, 3) (1, 4) (2, 3) (2, 4) (3, 4)
@@ -37,11 +42,12 @@ def is_prime(n: int) -> bool:
         return False
 
     i = 2
-    while(i * i <= n):
+    while i * i <= n:
         if n % i == 0:
             return False
         i += 1
     return True
+
 
 def list_prime_factor(n: int) -> Dict[int, int]:
     """
@@ -56,8 +62,8 @@ def list_prime_factor(n: int) -> Dict[int, int]:
         return factors
     else:
         i = 2
-        while(i * i <= n):
-            while (n % i == 0):
+        while i * i <= n:
+            while n % i == 0:
                 n = n // i
                 factors[i] += 1
             i += 1
@@ -82,5 +88,5 @@ def main():
     print(ans)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
