@@ -37,7 +37,7 @@ def is_prime(n: int) -> bool:
         return False
 
     i = 2
-    while(i * i <= n):
+    while i * i <= n:
         if n % i == 0:
             return False
         i += 1
@@ -58,8 +58,8 @@ def list_prime_factor(n: int) -> Dict[int, int]:
         return factors
     else:
         i = 2
-        while(i * i <= n):
-            while (n % i == 0):
+        while i * i <= n:
+            while n % i == 0:
                 n = n // i
                 factors[i] += 1
             i += 1
@@ -81,7 +81,7 @@ def list_divisors(n: int) -> Set[int]:
         divisors.add(n)
         return divisors
 
-    while(i * i <= n):
+    while i * i <= n:
         if n % i == 0:
             divisors.add(i)
             if n // i != i:
@@ -105,7 +105,7 @@ def eratosthenes(n: int) -> Set[int]:
             if is_prime(i):
                 primes.add(i)
                 idx = 2
-                while(i * idx <= n):
+                while i * idx <= n:
                     is_primes_dicts[i * idx] = False
                     idx += 1
     return primes
