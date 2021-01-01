@@ -57,7 +57,6 @@ def list_prime_factor(n: int) -> Dict[int, int]:
 
 
 def list_divisors(n: int) -> Set[int]:
-    # TODO: verify
     """
     nの約数のリストを返す
     """
