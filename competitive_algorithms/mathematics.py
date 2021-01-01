@@ -7,6 +7,7 @@ from collections import defaultdict
 def lcm(a: int, b: int) -> int:
     """
     a, bの最小公倍数を返す
+    計算量: O(√min(a, b))
     """
     if a <= 0 or b <= 0:
         raise ValueError("a and b must not be 0")
@@ -16,6 +17,7 @@ def lcm(a: int, b: int) -> int:
 def extgcd(a: int, b: int) -> Tuple[int, int, int]:
     """
     ax + by = gcd(a,b) = d となる (x,y,d) を返す
+    計算量: O(log(max(a, b)))
     """
     if b == 0:
         return (1, 0, a)
@@ -27,9 +29,9 @@ def extgcd(a: int, b: int) -> Tuple[int, int, int]:
 
 def is_prime(n: int) -> bool:
     """
-    素数か判定するO(√n)
-    NOTE:
-        simpyライブラリはatcoderでは使えない
+    素数か判定する
+    計算量: O(√n)
+    NOTE: simpyライブラリはatcoderでは使えない
     """
     if n < 2:
         return False
@@ -44,8 +46,9 @@ def is_prime(n: int) -> bool:
 
 def list_prime_factor(n: int) -> Dict[int, int]:
     """
-    素因数を列挙するアルゴリズムO(√n)
+    素因数を列挙するアルゴリズム
     nの素因数は高々√nであることを利用(自身が素数でない場合)
+    計算量: O(√n)
     """
     factors = defaultdict(int)
     if n == 1:
@@ -68,6 +71,7 @@ def list_prime_factor(n: int) -> Dict[int, int]:
 def list_divisors(n: int) -> Set[int]:
     """
     nの約数のリストを返す
+    計算量: O(√n)
     """
     i = 1
     divisors = set()
