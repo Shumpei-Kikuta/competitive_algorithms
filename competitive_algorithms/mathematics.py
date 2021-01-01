@@ -4,6 +4,15 @@ from typing import Tuple, List, Dict, Set
 from collections import defaultdict
 
 
+def lcm(a: int, b: int) -> int:
+    """
+    a, bの最小公倍数を返す
+    """
+    if a <= 0 or b <= 0:
+        raise ValueError("a and b must not be 0")
+    return a * b / math.gcd(a, b)
+
+
 def extgcd(a: int, b: int) -> Tuple[int, int, int]:
     """
     ax + by = gcd(a,b) = d となる (x,y,d) を返す
