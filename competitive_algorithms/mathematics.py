@@ -113,11 +113,11 @@ def eratosthenes(n: int) -> Set[int]:
     return primes
 
 
-def pow_matrix(A: np.ndarray, n: int):
+def pow_matrix(A: np.ndarray, n: int, mod: int):
     res = 1
     while n > 0:
         if n & 1 == 1:
-            res = np.dot(res, A)  # 行列積
+            res = np.dot(res, A) % mod  # 行列積
         A = np.dot(A, A)  # 行列積
         n >>= 1
     return res
