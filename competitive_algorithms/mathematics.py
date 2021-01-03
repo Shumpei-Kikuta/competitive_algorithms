@@ -3,6 +3,8 @@ import math
 from typing import Tuple, List, Dict, Set
 from collections import defaultdict
 
+import numpy as np
+
 
 def lcm(a: int, b: int) -> int:
     """
@@ -109,3 +111,13 @@ def eratosthenes(n: int) -> Set[int]:
                     is_primes_dicts[i * idx] = False
                     idx += 1
     return primes
+
+
+def pow_matrix(A: np.ndarray, n: int):
+    res = 1
+    while n > 0:
+        if n & 1 == 1:
+            res = np.dot(res, A)  # 行列積
+        A = np.dot(A, A)  # 行列積
+        n >>= 1
+    return res
