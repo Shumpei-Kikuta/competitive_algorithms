@@ -36,6 +36,7 @@ from competitive_algorithms.mathematics import extgcd
 
 
 def main():
+    # TMP: あってそうだが、サンプル通らない
     T = int(input())
     for i in range(T):
         N, S, K = map(int, input().split())
