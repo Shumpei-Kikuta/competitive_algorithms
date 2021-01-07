@@ -1,7 +1,7 @@
 from typing import Dict, List, Tuple
 import heapq
 
-INF = 10 ** 10
+INF = 10 ** 20
 
 
 class Edge:
@@ -95,16 +95,33 @@ class Graph:
                     heapq.heappush(self.edge_queues, (distances[next_node], next_node))
         return distances
 
+    def warshall_floyd(self):
+        node2ids = {node: idx for idx, node in enumerate(self.adjacent_lists)}
+        N = len(node2ids)
 
-# v, e, r = map(int, input().split())
-# adjacent_lists = {node: dict() for node in range(v)}
-# for _ in range(e):
-#     s, t, d = map(int, input().split())
-#     adjacent_lists[s][t] = d
-# graph = Graph(adjacent_lists)
-# result = graph.dijkstra(r)
-# for v in result.values():
-#     if v == 10**10:
-#         print("INF")
-#     else:
-#         print(v)
+        # dp[i][j] = 元のコスト
+        # dp[i][i] = 0で初期化
+        dp = []
+        for i in range(N):
+            lists = []
+            for j in range(N):
+                lists.append(INF)
+            dp.append(lists)
+
+        for i in range(N):
+            dp[i][i] = 0
+
+        for from_ in self.adjacent_lists:
+            for to_, d in self.adjacent_lists[from_].items():
+                from_ = node2ids[from_]
+                to_ = node2ids[to_]
+                dp[from_][to_] = d
+
+        for k in range(N):
+            for i in range(N):
+                for j in range(N):
+                    dp[i][j] = min(dp[i][j], dp[i][k] + dp[k][j])
+        for i in range(N):
+            if dp[i][i] < 0:
+                return "NEGATIVE CYCLE"
+        return dp
