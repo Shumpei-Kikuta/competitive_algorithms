@@ -1,5 +1,6 @@
 from typing import Dict, List, Tuple
 import heapq
+from heapq import heappush, heappop
 
 INF = 10 ** 20
 
@@ -15,15 +16,15 @@ class Graph:
     def __init__(self, adjacent_lists: Dict[int, Dict[int, int]]):
         # 隣接リスト
         # {1: {2: 4, 3: 5}}など
+        if len(adjacent_lists) < 1:
+            raise ValueError("graph size must be more than 1!")
         self.adjacent_lists = adjacent_lists
-        self.edges: List[Edge] = self.initialize_edgelists()
-        # TODO: edge_queueの定義
-        self.edge_queues = []
 
-    def initialize_edgelists(self):
+    @staticmethod
+    def initialize_edgelists(adjacent_lists):
         edges = []
-        for from_ in self.adjacent_lists.keys():
-            for to_, d in self.adjacent_lists[from_].items():
+        for from_ in adjacent_lists.keys():
+            for to_, d in adjacent_lists[from_].items():
                 edge = Edge(from_, to_, d)
                 edges.append(edge)
         return edges
@@ -35,6 +36,8 @@ class Graph:
         負の辺や負の閉路があっても問題なし
         計算量：O(VE)
         """
+        self.edges: List[Edge] = self.initialize_edgelists(self.adjacent_lists)
+
         distances = {node: INF for node in self.adjacent_lists.keys()}
         distances[start] = 0
         for _ in range(len(self.adjacent_lists)):
@@ -51,39 +54,20 @@ class Graph:
             return "NEGATIVE CYCLE"
         return distances
 
-    # def dijkstra(self, s):
-    #     alreadys = [False] * len(self.adjacent_lists)
-    #     distances = {node: INF for node in self.adjacent_lists.keys()}
-    #     now = s
-    #     distances[s] = 0
-    #     for (to_, d) in self.adjacent_lists[now].items():
-    #         heapq.heappush(self.edge_queues, (d, now, to_))
-    #         distances[to_] = d
-    #     alreadys[s] = True
-
-    #     while(len(self.edge_queues) != 0):
-    #         d, _, now = heapq.heappop(self.edge_queues)
-    #         if alreadys[now]:
-    #             continue
-    #         alreadys[now] = True
-    #         for next_node, d in self.adjacent_lists[now].items():
-    #             # if alreadys[next_node]:
-    #             #     continue
-    #             distances[next_node] = min(distances[next_node], distances[now] + self.adjacent_lists[now][next_node])
-    #             heapq.heappush(self.edge_queues, (d, now, next_node))
-    #     return distances
     def dijkstra(self, s):
+
+        queue = []
         alreadys = [False] * len(self.adjacent_lists)
         distances = {node: INF for node in self.adjacent_lists.keys()}
         now = s
         distances[s] = 0
         for (to_, d) in self.adjacent_lists[now].items():
-            heapq.heappush(self.edge_queues, (d, to_))
+            heapq.heappush(queue, (d, to_))
             distances[to_] = d
         alreadys[s] = True
 
-        while len(self.edge_queues) != 0:
-            d, now = heapq.heappop(self.edge_queues)
+        while len(queue) != 0:
+            d, now = heapq.heappop(queue)
             if alreadys[now]:
                 continue
             alreadys[now] = True
@@ -92,7 +76,7 @@ class Graph:
                     continue
                 if distances[next_node] > distances[now] + d:
                     distances[next_node] = distances[now] + d
-                    heapq.heappush(self.edge_queues, (distances[next_node], next_node))
+                    heapq.heappush(queue, (distances[next_node], next_node))
         return distances
 
     def warshall_floyd(self):
@@ -125,3 +109,31 @@ class Graph:
             if dp[i][i] < 0:
                 return "NEGATIVE CYCLE"
         return dp
+
+    def prim(self):
+        # verified by aoj minimum spanning tree
+        """最小全域木の辺の総和を求めるアルゴリズム
+        計算量 O(|E|log(|V|))
+        Note:
+            最小全域木は無向グラフであるため、隣接リストの初期化に注意
+        Returns:
+            [type]: [description]
+        """
+        alreadys = [False] * len(self.adjacent_lists)
+        queue = []
+        min_cost = 0
+
+        alreadys[0] = True
+        for to, d in self.adjacent_lists[0].items():
+            heappush(queue, (d, to))
+        while len(queue) != 0:
+            d, from_ = heappop(queue)
+            if alreadys[from_] is True:
+                continue
+            alreadys[from_] = True
+            min_cost += d
+            for to_, d in self.adjacent_lists[from_].items():
+                if alreadys[to_] is True:
+                    continue
+                heappush(queue, (d, to_))
+        return min_cost
