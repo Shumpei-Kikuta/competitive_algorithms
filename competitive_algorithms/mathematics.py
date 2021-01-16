@@ -2,6 +2,7 @@
 import math
 from typing import Tuple, List, Dict, Set
 from collections import defaultdict
+from bisect import bisect_left
 
 import numpy as np
 
@@ -121,3 +122,15 @@ def pow_matrix(A: np.ndarray, n: int, mod: int):
         A = np.dot(A, A)  # 行列積
         n >>= 1
     return res
+
+
+def compress_1dim(lists: List[int]) -> Dict[int, int]:
+    """
+    一次元座標圧縮
+    """
+    lists_sort = sorted(list(set(lists)))
+    dicts = {}
+    for value in lists:
+        idx = bisect_left(lists_sort, value)
+        dicts[value] = idx
+    return dicts

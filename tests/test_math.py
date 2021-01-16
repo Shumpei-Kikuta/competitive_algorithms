@@ -7,6 +7,7 @@ from competitive_algorithms.mathematics import (
     list_divisors,
     lcm,
     eratosthenes,
+    compress_1dim,
 )
 
 
@@ -88,3 +89,17 @@ def test_lcm(A, B, expected):
 )
 def test_eratosthenes(n, expected):
     assert len(eratosthenes(n)) == expected
+
+
+@pytest.mark.parametrize(
+    "input_, expected",
+    [
+        pytest.param([5, 3, 3, 1, 6, 1], [2, 1, 1, 0, 3, 0], id="normal"),
+        pytest.param(list(range(5)), list(range(5)), id="simple"),
+        pytest.param([100], [0], id="edge"),
+    ],
+)
+def test_compress_1dim(input_, expected):
+    dicts = compress_1dim(input_)
+    actual = [dicts[v] for v in input_]
+    assert actual == expected
