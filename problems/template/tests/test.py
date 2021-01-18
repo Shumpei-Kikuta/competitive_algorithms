@@ -1,8 +1,10 @@
 import os
+from pathlib import Path
 
 import pytest
 
 RANGE_ = 5
+CWD = Path(__file__).parent
 
 
 @pytest.fixture()
@@ -14,7 +16,7 @@ def get_file(pytestconfig):
 def delete_file():
     yield
     for i in range(1, 6):
-        os.remove(f"actual-{i}.txt")
+        os.remove(CWD / f"actual-{i}.txt")
 
 
 @pytest.mark.parametrize(
@@ -27,10 +29,10 @@ def test_main(idx, get_file):
     # TODO: argsでscriptの指定
     # script = get_file
     script = get_file
-    input_ = f"answer-{idx}.txt"
-    expected = f"expected-{idx}.txt"
-    actual = f"actual-{idx}.txt"
-    command = f"poetry run python ../{script} < {input_} > {actual}"
+    input_ = CWD / f"answer-{idx}.txt"
+    expected = CWD / f"expected-{idx}.txt"
+    actual = CWD / f"actual-{idx}.txt"
+    command = f"poetry run python {CWD.parent / script} < {input_} > {actual}"
     os.system(command)
 
     # actualとexpectedが同じか判定
