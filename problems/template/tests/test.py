@@ -10,6 +10,13 @@ def get_file(pytestconfig):
     return pytestconfig.getoption("file")
 
 
+@pytest.fixture(autouse=True, scope="session")
+def delete_file():
+    yield
+    for i in range(1, 6):
+        os.remove(f"actual-{i}.txt")
+
+
 @pytest.mark.parametrize(
     "idx",
     # TODO: argsで1-5
